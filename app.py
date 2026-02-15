@@ -33,6 +33,51 @@ st.pyplot(fig)
 st.subheader("Top Rated Series")
 st.write(avg_rating.head(5))
 
+st.subheader("Ratings Distribution (Histogram)")
+
+fig, ax = plt.subplots()
+ax.hist(df_melted["Rating"], bins=10)
+ax.set_xlabel("Rating")
+ax.set_ylabel("Frequency")
+
+st.pyplot(fig)
+st.subheader("Top 5 Series Popularity (Pie Chart)")
+
+top_series = df_melted["Series"].value_counts().head(5)
+
+fig, ax = plt.subplots()
+ax.pie(top_series, labels=top_series.index, autopct="%1.1f%%")
+ax.axis("equal")
+
+st.pyplot(fig)
+
+st.subheader("Average Rating of Each Series")
+
+avg_rating = df_melted.groupby("Series")["Rating"].mean().sort_values(ascending=False)
+
+st.bar_chart(avg_rating)
+
+st.subheader("Rating Spread (Box Plot)")
+
+fig, ax = plt.subplots()
+df_melted.boxplot(column="Rating", ax=ax)
+
+st.pyplot(fig)
+
+st.subheader("Ratings Given per User")
+
+user_counts = df_melted.groupby("User_ID")["Rating"].count()
+
+st.line_chart(user_counts)
+
+st.subheader("Average Ratings Table")
+
+st.dataframe(avg_rating.reset_index())
+
+st.subheader("Average Ratings Table")
+
+st.dataframe(avg_rating.reset_index())
+
 # ---- Recommendation Section ----
 st.subheader("Get Recommendations")
 
